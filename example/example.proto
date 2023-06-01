@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "./pb";
+
+message User {
+  string name = 1;
+  string email = 2;
+}
+
+message GetUserRequest {
+  string name = 1;
+}
+
+message Empty {
+  string empty = 1;
+}
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (User);
+  rpc ListUsers(Empty) returns (stream User);
+}
