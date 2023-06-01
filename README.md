@@ -1,4 +1,4 @@
-# go-grcp-hmac
+# go-grcp-hmac [![Go Reference](https://pkg.go.dev/badge/github.com/yogeshlonkar/go-grpc-hmac.svg)](https://pkg.go.dev/github.com/yogeshlonkar/go-grpc-hmac) [![Continuous Integration](https://github.com/yogeshlonkar/go-grpc-hmac/actions/workflows/on-push.yaml/badge.svg)](https://github.com/yogeshlonkar/go-grpc-hmac/actions/workflows/on-push.yaml) [![Go Report Card](https://goreportcard.com/badge/github.com/yogeshlonkar/go-grpc-hmac)](https://goreportcard.com/report/github.com/yogeshlonkar/go-grpc-hmac)
 
 HMAC Client and Server Interceptor for golang grpc
 
