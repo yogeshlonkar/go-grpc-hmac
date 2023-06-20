@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	hmac "github.com/yogeshlonkar/go-grpc-hmac"
-	"github.com/yogeshlonkar/go-grpc-hmac/example/pb"
+	"go-grpc-hmac/example/pb"
 )
 
 type Servicer struct {
@@ -64,7 +64,7 @@ func (s *server) start() {
 	}
 }
 
-func (s *server) getSecrets(keyId string) (string, error) {
+func (s *server) getSecrets(_ context.Context, keyId string) (string, error) {
 	secrets := map[string]string{
 		os.Getenv("key_id"): os.Getenv("secret_key"),
 	}

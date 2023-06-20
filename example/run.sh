@@ -2,7 +2,8 @@
 set -eo pipefail
 
 if [[ -z "${CI}" ]]; then
-  trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
+  trap "exit" INT TERM
+  trap "kill 0" EXIT
 fi
 
 export GO_GRPC_HMAC_LOG=true
@@ -17,8 +18,7 @@ popd &>/dev/null
 
 pushd client &>/dev/null
 echo "[run.sh] Running client with correct secret"
-go run .
-echo "[run.sh] Running client with wrong secret"
+go run . && echo "[run.sh] Correct secret worked"
 export secret_key="wrong-secret"
-go run .
+go run . || echo "[run.sh] Wrong secret failed"
 popd &>/dev/null

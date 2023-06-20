@@ -10,7 +10,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"github.com/yogeshlonkar/go-grpc-hmac/example/pb"
+	"go-grpc-hmac/example/pb"
 )
 
 const shutdownDelay = 5 * time.Second

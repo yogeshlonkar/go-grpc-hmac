@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	hmac "github.com/yogeshlonkar/go-grpc-hmac"
-	"github.com/yogeshlonkar/go-grpc-hmac/example/pb"
+	"go-grpc-hmac/example/pb"
 )
 
 func main() {
@@ -30,10 +30,12 @@ func main() {
 		panic(err)
 	}
 	defer conn.Close()
+	failed := false
 	client := pb.NewUserServiceClient(conn)
 	resp, err := client.GetUser(context.Background(), &pb.GetUserRequest{Name: "unknown"})
 	if err != nil {
 		log.Error().Err(err).Msg("GetUser failed")
+		failed = true
 	} else {
 		log.Info().Msgf("GetUser resp: %v", resp)
 	}
@@ -46,9 +48,13 @@ func main() {
 		}
 		if err != nil {
 			log.Error().Err(err).Msg("ListUsers failed")
+			failed = true
 			break
 		}
 		log.Info().Msgf("ListUsers resp: %v", resp)
+	}
+	if failed {
+		os.Exit(1)
 	}
 }
 
