@@ -97,7 +97,7 @@ func authForSecrets(getSecret GetSecret) func(ctx context.Context, message strin
 		if hmacKeyID == "" {
 			return ErrMissingHmacKeyID
 		}
-		secretKey, err := getSecret(hmacKeyID)
+		secretKey, err := getSecret(ctx, hmacKeyID)
 		if err != nil {
 			return status.Errorf(codes.Internal, err.Error())
 		}

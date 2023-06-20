@@ -59,7 +59,7 @@ func TestNewMessage(t *testing.T) {
 
 func Test_authForSecrets(t *testing.T) {
 	type args struct {
-		getSecret func(string) (string, error)
+		getSecret func(context.Context, string) (string, error)
 		ctx       context.Context //nolint:containedctx
 		message   string
 	}
@@ -92,7 +92,7 @@ func Test_authForSecrets(t *testing.T) {
 		{
 			"FailedToGetSecret",
 			args{
-				getSecret: func(string) (string, error) { return "", errors.New("something went wrong") },
+				getSecret: func(context.Context, string) (string, error) { return "", errors.New("something went wrong") },
 				ctx:       metadata.NewIncomingContext(context.Background(), metadata.MD{"x-hmac-signature": []string{"signature"}, "x-hmac-key-id": []string{"key-id"}}),
 			},
 			status.Errorf(codes.Internal, "something went wrong"),
@@ -100,7 +100,7 @@ func Test_authForSecrets(t *testing.T) {
 		{
 			"InvalidHmacKeyID",
 			args{
-				getSecret: func(string) (string, error) { return "", nil },
+				getSecret: func(context.Context, string) (string, error) { return "", nil },
 				ctx:       metadata.NewIncomingContext(context.Background(), metadata.MD{"x-hmac-signature": []string{"signature"}, "x-hmac-key-id": []string{"key-id"}}),
 			},
 			ErrInvalidHmacKeyID,
@@ -108,7 +108,7 @@ func Test_authForSecrets(t *testing.T) {
 		{
 			"InvalidHmacSignature",
 			args{
-				getSecret: func(string) (string, error) { return "secret", nil },
+				getSecret: func(context.Context, string) (string, error) { return "secret", nil },
 				ctx:       metadata.NewIncomingContext(context.Background(), metadata.MD{"x-hmac-signature": []string{"signature"}, "x-hmac-key-id": []string{"key-id"}}),
 				message:   "plain-text",
 			},
@@ -117,7 +117,7 @@ func Test_authForSecrets(t *testing.T) {
 		{
 			"ValidHmacSignature",
 			args{
-				getSecret: func(string) (string, error) { return "secret", nil },
+				getSecret: func(context.Context, string) (string, error) { return "secret", nil },
 				ctx:       metadata.NewIncomingContext(context.Background(), metadata.MD{"x-hmac-signature": []string{"10UnPiUX0BMx6XS+VrOwCo0S8L/K58ySRb+VUT/xuvU="}, "x-hmac-key-id": []string{"key-id"}}),
 				message:   "plain-text",
 			},

@@ -30,7 +30,7 @@ type serverInterceptor struct {
 // GetSecret is a function that returns the secret for a given keyId.
 // Returns an empty string in case the keyId is not found instead of an error.
 // If the function returns an error, the request is rejected.
-type GetSecret func(keyId string) (secret string, err error)
+type GetSecret func(ctx context.Context, keyId string) (secret string, err error)
 
 // NewServerInterceptor returns a new server interceptor that authenticates requests using GetSecret.
 func NewServerInterceptor(getSecret GetSecret) ServerInterceptor {
