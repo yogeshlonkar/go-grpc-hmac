@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	graceful "github.com/yogeshlonkar/go-shutdown-graceful"
 	"net"
 	"os"
 
@@ -43,11 +44,11 @@ type server struct {
 	server *grpc.Server
 }
 
-func (s *server) handleShutdown(shutdown <-chan bool, done chan<- bool) {
+func (s *server) handleShutdown() {
+	shutdown, done := graceful.NewShutdownObserver()
 	<-shutdown
 	s.server.GracefulStop()
-	log.Info().Msg("server server stopped")
-	done <- true
+	done()
 }
 
 func (s *server) start() {

@@ -4,7 +4,8 @@ go 1.20
 
 require (
 	github.com/rs/zerolog v1.29.1
-	github.com/yogeshlonkar/go-grpc-hmac v0.1.0
+	github.com/yogeshlonkar/go-grpc-hmac v0.1.1
+	github.com/yogeshlonkar/go-shutdown-graceful v0.1.0
 	google.golang.org/grpc v1.56.0
 	google.golang.org/protobuf v1.30.0
 )

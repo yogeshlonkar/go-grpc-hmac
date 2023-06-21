@@ -48,7 +48,7 @@ func DisableLogging() {
 func NewMessage(req interface{}, method string) (string, error) {
 	buf := new(bytes.Buffer)
 	if req == nil {
-		logger.Println("no request, using only method name as message")
+		logger.Println("warning: no request, using only method name as message")
 		return "method=" + method, nil
 	}
 	reqBuf := new(bytes.Buffer)
@@ -99,10 +99,11 @@ func authForSecrets(getSecret GetSecret) func(ctx context.Context, message strin
 		}
 		secretKey, err := getSecret(ctx, hmacKeyID)
 		if err != nil {
+			log.Printf("internal error getting secret for keyID %s: %q", hmacKeyID, err)
 			return status.Errorf(codes.Internal, err.Error())
 		}
 		if secretKey == "" {
-			logger.Printf("no secret found for %s keyID", hmacKeyID)
+			logger.Printf("no secret found for keyID %s", hmacKeyID)
 			return ErrInvalidHmacKeyID
 		}
 		if !hmac.Equal([]byte(hmacSign), Bytes(secretKey, message)) {
