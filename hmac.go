@@ -18,6 +18,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+const emptyBracketLength = 2
+
 var (
 	logger                  = log.New(io.Discard, "[go-grpc-hmac] ", log.LstdFlags|log.LUTC)
 	ErrInvalidHmacKeyID     = status.Errorf(codes.Unauthenticated, "invalid x-hmac-key-id")
@@ -60,7 +62,7 @@ func NewMessage(req interface{}, method string) (string, error) {
 		return "", fmt.Errorf("failed to encode request: %w", err)
 	}
 	reqBuf.Truncate(reqBuf.Len() - 1) // remove trailing newline
-	if reqBuf.Len() > 2 {
+	if reqBuf.Len() > emptyBracketLength {
 		buf.WriteString("request=")
 		buf.Write(reqBuf.Bytes())
 		buf.WriteString(";")
