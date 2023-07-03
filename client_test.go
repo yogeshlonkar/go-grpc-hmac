@@ -64,7 +64,7 @@ func TestUnaryClientInterceptor(t *testing.T) {
 		hmacKeyId:  "key1",
 		hmacSecret: "secret1",
 	}
-	err := c.UnaryClientInterceptor(context.Background(), "method1", &grpc.StreamDesc{}, req, nil, handler)
+	err := c.UnaryClientInterceptor(context.Background(), "method1", req, nil, nil, handler)
 	if err != nil {
 		t.Fatalf("UnaryClientInterceptor() expected error to be nil got error = %v", err)
 	}

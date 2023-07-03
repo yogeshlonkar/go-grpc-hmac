@@ -6,7 +6,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha512"
 	"encoding/base64"
-	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -52,16 +52,19 @@ func NewMessage(req interface{}, method string) (string, error) {
 		return "method=" + method, nil
 	}
 	reqBuf := new(bytes.Buffer)
-	if err := gob.NewEncoder(reqBuf).Encode(req); err != nil {
+	if err := json.NewEncoder(reqBuf).Encode(req); err != nil {
 		if strings.Contains(err.Error(), "has no exported fields") {
 			logger.Println("warning: no exported fields in request, using only method name as message")
 			goto ADDMETHOD
 		}
 		return "", fmt.Errorf("failed to encode request: %w", err)
 	}
-	buf.WriteString("request=")
-	buf.Write(reqBuf.Bytes())
-	buf.WriteString(";")
+	reqBuf.Truncate(reqBuf.Len() - 1) // remove trailing newline
+	if reqBuf.Len() > 2 {
+		buf.WriteString("request=")
+		buf.Write(reqBuf.Bytes())
+		buf.WriteString(";")
+	}
 ADDMETHOD:
 	buf.WriteString("method=" + method)
 	return buf.String(), nil

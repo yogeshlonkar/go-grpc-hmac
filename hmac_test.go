@@ -1,9 +1,7 @@
 package hmac
 
 import (
-	"bytes"
 	"context"
-	"encoding/gob"
 	"errors"
 	"testing"
 
@@ -17,10 +15,6 @@ func TestNewMessage(t *testing.T) {
 		req    interface{}
 		method string
 	}
-	buf := new(bytes.Buffer)
-	buf.WriteString("request=")
-	_ = gob.NewEncoder(buf).Encode(&struct{ Field1 int }{1})
-	buf.WriteString(";method=method3")
 	tests := []struct {
 		name    string
 		args    args
@@ -39,8 +33,10 @@ func TestNewMessage(t *testing.T) {
 		},
 		{
 			name: "RequestWithFields",
-			args: args{&struct{ Field1 int }{1}, "method3"},
-			want: buf.String(),
+			args: args{&struct {
+				Field1 int `json:"field1"`
+			}{1}, "method3"},
+			want: `request={"field1":1};method=method3`,
 		},
 	}
 	for _, tt := range tests {
