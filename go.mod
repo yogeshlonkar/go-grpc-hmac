@@ -2,7 +2,7 @@ module github.com/yogeshlonkar/go-grpc-hmac
 
 go 1.20
 
-require google.golang.org/grpc v1.56.1
+require google.golang.org/grpc v1.57.0
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect
