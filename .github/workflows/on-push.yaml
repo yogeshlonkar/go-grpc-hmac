@@ -34,7 +34,7 @@ jobs:
         run: go vet ./...
         shell: bash
       - name: Golangci lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v5
         if: success() || failure() # runs everytime except the job is cancelled
         with:
           skip-pkg-cache: true
