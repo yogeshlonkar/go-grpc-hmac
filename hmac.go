@@ -105,7 +105,7 @@ func authForSecrets(getSecret GetSecret) func(ctx context.Context, message strin
 		secretKey, err := getSecret(ctx, hmacKeyID)
 		if err != nil {
 			log.Printf("internal error getting secret for keyID %s: %q", hmacKeyID, err)
-			return status.Errorf(codes.Internal, err.Error())
+			return status.Error(codes.Internal, err.Error())
 		}
 		if secretKey == "" {
 			logger.Printf("no secret found for keyID %s", hmacKeyID)

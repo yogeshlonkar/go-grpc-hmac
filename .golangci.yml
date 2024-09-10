@@ -16,8 +16,9 @@ linters:
     - godot
     - gofmt
     - goimports
-    - gomnd
+    - mnd
     - gosimple
+    - govet
     - ineffassign
     - makezero
     - misspell
@@ -29,7 +30,6 @@ linters:
     - unconvert
     - unparam
     - unused
-    - vet
     - wrapcheck
 linters-settings:
   revive:
