@@ -34,7 +34,7 @@ jobs:
         run: go vet ./...
         shell: bash
       - name: Golangci lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v7
         if: success() || failure() # runs everytime except the job is cancelled
         with:
           args: --timeout=1m
