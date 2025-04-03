@@ -122,7 +122,7 @@ func Test_authForSecrets(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			auth := authForSecrets(tt.args.getSecret)
+			auth := authForSecrets(tt.getSecret)
 			if got := auth(tt.ctx, tt.message); tt.want != got && !errors.Is(got, tt.want) { //nolint:errorlint
 				t.Errorf("NewMessage() return got = %v, want %v", got, tt.want)
 			}

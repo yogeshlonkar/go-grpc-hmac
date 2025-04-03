@@ -1,57 +1,70 @@
-run:
+version: "2"
 linters:
   enable:
     - containedctx
     - contextcheck
     - dupl
     - durationcheck
-    - errcheck
     - errorlint
-    - exportloopref
     - forcetypeassert
-    - gci
     - goconst
     - gocritic
     - gocyclo
     - godot
-    - gofmt
-    - goimports
-    - mnd
-    - gosimple
-    - govet
-    - ineffassign
     - makezero
     - misspell
+    - mnd
     - nilerr
     - predeclared
     - revive
-    - staticcheck
-    - tenv
     - unconvert
     - unparam
-    - unused
     - wrapcheck
-linters-settings:
-  revive:
-    rules:
-      - name: var-naming
-        severity: warning
-        disabled: false
-        arguments:
-          - ["ID"] # AllowList
-  goimports:
-    local-prefixes: github.com/yogeshlonkar/go-grpc-hmac
-  wrapcheck:
-    ignoreSigRegexps:
-      - '.*github.com/yogeshlonkar/go-grpc-hmac/.*'
-    ignorePackageGlobs:
-      - github.com/yogeshlonkar/go-grpc-hmac/*
-  gocyclo:
-    min-complexity: 12
-  gci:
-    sections:
-      - standard # Standard section: captures all standard packages.
-      - default # Default section: contains all imports that could not be matched to another section type.
-      - dot
-      - prefix(github.com/yogeshlonkar/go-grpc-hmac) # local packages.
-    custom-order: true
+  settings:
+    gocyclo:
+      min-complexity: 12
+    revive:
+      rules:
+        - name: var-naming
+          arguments:
+            - - ID
+          severity: warning
+          disabled: false
+    wrapcheck:
+      ignore-sig-regexps:
+        - .*github.com/yogeshlonkar/go-grpc-hmac/.*
+      ignore-package-globs:
+        - github.com/yogeshlonkar/go-grpc-hmac/*
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - goimports
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - dot
+        - prefix(github.com/yogeshlonkar/go-grpc-hmac)
+      custom-order: true
+    goimports:
+      local-prefixes:
+        - github.com/yogeshlonkar/go-grpc-hmac
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

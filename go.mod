@@ -1,6 +1,7 @@
 module github.com/yogeshlonkar/go-grpc-hmac
 
-go 1.21
+go 1.22.0
+
 toolchain go1.24.1
 
 require google.golang.org/grpc v1.71.1
